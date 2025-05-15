@@ -5,9 +5,6 @@ on:
     branches:
       - main
 
-env:
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 jobs:
   build_and_push_backend:
     runs-on: ubuntu-latest
@@ -26,14 +23,10 @@ jobs:
           dotnet-version: '7.0.x'
 
       - name: Build backend Docker image
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        run: docker build -t $DOCKERHUB_USERNAME/registration-backend:latest ./backend
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/registration-backend:latest ./backend
 
       - name: Push backend Docker image
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        run: docker push $DOCKERHUB_USERNAME/registration-backend:latest
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/registration-backend:latest
 
   build_and_push_frontend:
     runs-on: ubuntu-latest
@@ -47,12 +40,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build frontend Docker image
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        run: docker build -t $DOCKERHUB_USERNAME/registration-frontend:latest ./frontend
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/registration-frontend:latest ./frontend
 
       - name: Push frontend Docker image
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        run: docker push $DOCKERHUB_USERNAME/registration-frontend:latest
-            
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/registration-frontend:latest
